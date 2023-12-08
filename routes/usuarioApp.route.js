@@ -1,0 +1,107 @@
+/*
+            RUTA: /api/usuarios
+
+*/
+
+const { Router } = require('express');
+const { check } = require('express-validator');
+const { validarCampos } = require('../middleware/validar-campos');
+const { validarJWT } = require('../middleware/validar-jwt');
+
+const { getUsuarios, crearUsuarioApp, getUserLogeado
+    /*actualizarPerfil,
+    statusUsuario,
+    RoleUsuario,
+    buscarUsuario,
+    CambiarRole,
+    cambiaPassword,
+    getUserLogeado*/
+} = require('../controllers/usuarioApp.controller');
+
+const router = Router();
+
+
+////////////////////////////////////////////////////////////////////////////
+//regresa a todos los usuarios
+////////////////////////////////////////////////////////////////////////////
+router.get('/', /*validarJWT,*/ getUsuarios)
+
+////////////////////////////////////////////////////////////////////////////
+// crear Usuarios nuevos
+////////////////////////////////////////////////////////////////////////////
+router.post(
+    '/',
+    [
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+        check('ficha', 'El control es obligatorio').not().isEmpty(),
+        check('password', 'El password es obligatorio').not().isEmpty(),
+        //validarCampos,
+    ],
+    crearUsuarioApp);
+
+////////////////////////////////////////////////////////////////////////////
+// datos de usuario logeado
+////////////////////////////////////////////////////////////////////////////
+router.get('/datos/user',validarJWT,getUserLogeado);
+
+
+/////////////////////////////////////////////////////////////////////////////
+//actualizar perfil de usuaio propio
+/////////////////////////////////////////////////////////////////////////////
+/*router.put('/:id',
+    [
+        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+        //check('uid','Debe ser un id valido de Mongo').isMongoId(),
+        validarCampos,
+    ],
+    actualizarPerfil);
+
+
+//////////////////////////////////////////////////////////////////////////////
+//cambiar estatus de usuario
+//////////////////////////////////////////////////////////////////////////////
+router.put('/:id/:stat',
+[
+    validarJWT,
+    ],
+    statusUsuario);
+
+//////////////////////////////////////////////////////////////////////////////
+//cambiar role de usuairo po rid
+//////////////////////////////////////////////////////////////////////////////
+
+router.put('/cambiar/role/:uid',
+[
+    check('role', 'El rol es obligatorio').not().isEmpty(),
+    validarJWT
+],
+CambiarRole)
+
+//////////////////////////////////////////////////////////////////////////////
+//buscar usuario por id
+//////////////////////////////////////////////////////////////////////////////
+router.get('/:id', buscarUsuario);
+
+//////////////////////////////////////////////////////////////////////////////
+//cargar ROle de usuario por ID
+//////////////////////////////////////////////////////////////////////////////
+router.get('/buscar/role/:id',validarJWT, RoleUsuario)
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//cambiar password
+//////////////////////////////////////////////////////////////////////////////
+router.put('/cambia/password/:id',
+            [
+                check('password','El password actual es obligatorio').not().isEmpty(),
+                check('password1','El nuevo password es obligatorio').not().isEmpty(),
+                validarJWT,
+                validarCampos
+             ],
+            cambiaPassword)
+
+
+*/
+
+module.exports = router;
